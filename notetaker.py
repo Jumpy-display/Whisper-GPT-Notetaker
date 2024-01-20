@@ -16,7 +16,7 @@ from time import sleep
 from sys import platform
 import threading
 
-charCount=0
+charCount=0 
 
 def main():
 	global stopThread
