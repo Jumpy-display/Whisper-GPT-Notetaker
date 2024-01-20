@@ -58,7 +58,7 @@ class Window:
 			file_content = file.read()
 		bottom_frame.textspace.insert(1.0,file_content)
 		# Load and display the image for the search button
-		image = Image.open("c:/Users/jayde/OpenAI/gpt/specialgpt/right arrow.jpg")
+		image = Image.open("c:/Users/jayde/OpenAI/gpt/specialgpt/right-arrow.jpg")
 		img = image.resize((50, 50))  # Resize the image
 		img = ImageTk.PhotoImage(img)
 		Button(bottom_frame, image=img, command=self.search).grid(row=0, column=1, padx=5, pady=0)
