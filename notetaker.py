@@ -9,7 +9,7 @@ import speech_recognition as sr
 import whisper
 import torch
 import g4f
-#test
+
 from datetime import datetime, timedelta
 from queue import Queue
 from time import sleep
