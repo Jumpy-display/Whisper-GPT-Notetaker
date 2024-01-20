@@ -18,5 +18,5 @@ python TextEditor.py
 - Nearly live transcriptions powered by Whisper AI
 - Notes created from the live transcription by chatgpt
 
-##Credits
+## Credits
 This project includes code from [gpt4free](https://github.com/xtekky/gpt4free.git), which is licensed under the GNU General Public License v3.0. 
