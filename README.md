@@ -1,5 +1,6 @@
 # AI Notetaker
-
+### Written by Jayden John
+## Summary
 This is a AI powered nearly live transcription based notetaker built using Python's Tkinter and OpenAI's Whisper and ChatGPT.
 
 ## Installation
