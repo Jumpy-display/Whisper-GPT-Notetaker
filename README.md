@@ -9,6 +9,9 @@ This is a AI powered nearly live transcription based notetaker built using Pytho
 git clone https://github.com/Jumpy-display/Whisper-GPT-Notetaker.git
 ```
 2. Install the dependencies:
+```bash
+pip install -r requirements.txt
+```
 ## Usage
 Run the script:
 ```bash
