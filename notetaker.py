@@ -61,11 +61,11 @@ class Window:
 		# Create transcript textspace
 		bottom_frame.textspace = Text(bottom_frame, bg='white', fg='black', font=('Times New Roman', 12), padx=5, pady=5, width=50, wrap=WORD)
 		bottom_frame.textspace.grid(row=0, column=0, padx=10, pady=10)
-		with open("c:/Users/jayde/OpenAI/gpt/specialgpt/transcription.txt", "r") as file:
+		with open("transcription.txt", "r") as file:
 			file_content = file.read()
 		bottom_frame.textspace.insert(1.0,file_content)
 		# Load and display the image for the search button
-		image = Image.open("c:/Users/jayde/OpenAI/gpt/specialgpt/right-arrow.jpg")
+		image = Image.open("right-arrow.jpg")
 		img = image.resize((50, 50))  # Resize the image
 		img = ImageTk.PhotoImage(img)
 		Button(bottom_frame, image=img, command=self.search).grid(row=0, column=1, padx=5, pady=0)
@@ -76,7 +76,7 @@ class Window:
 		# Create note textspace
 		bottom_frame.notetextspace = Text(bottom_frame, bg='white', fg='black', font=('Times New Roman', 12), padx=5, pady=5, width=50, wrap=WORD)
 		bottom_frame.notetextspace.grid(row=0, column=2, padx=10, pady=10)
-		with open("c:/Users/jayde/OpenAI/gpt/specialgpt/notes.txt", "r") as file:
+		with open("notes.txt", "r") as file:
 			file_content = file.read()
 		bottom_frame.notetextspace.insert(1.0,file_content)
 
@@ -87,8 +87,8 @@ class Window:
 			bottom_frame = self.root.winfo_children()[1]  # Get the bottom_frame from the root
 			transcription = bottom_frame.textspace.get("1.0", "end-1c")
 			notes = bottom_frame.notetextspace.get("1.0", "end-1c")
-			tfile_path="c:/Users/jayde/OpenAI/gpt/specialgpt/transcription.txt"
-			nfile_path="c:/Users/jayde/OpenAI/gpt/specialgpt/notes.txt"
+			tfile_path="transcription.txt"
+			nfile_path="notes.txt"
 			# Write the contents to the selected file
 			with open(tfile_path, "w") as file:
 				file.write(transcription)
