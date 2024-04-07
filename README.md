@@ -3,6 +3,8 @@
 ## Summary
 This is an AI powered nearly live transcription based notetaker built using Python's Tkinter and OpenAI's Whisper and ChatGPT.
 
+![Screenshot 2024-04-07 132638](https://github.com/Jumpy-display/Whisper-GPT-Notetaker/assets/124234331/b68bd9f7-13d1-49b6-9fb4-9bbb00b97f10)
+
 ## Installation
 1. Make sure you have python installed on you computer. To make it work with Whisper it must be between versions 3.8-3.11.
 2. Whisper requires the command-line tool [`ffmpeg`](https://ffmpeg.org/) to be installed on your system, which is available from most package managers:
