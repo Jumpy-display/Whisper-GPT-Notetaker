@@ -3,8 +3,9 @@
 #----------------------------------------------------------------------------
 # Created By  : Jayden John
 # Created Date: 01/20/2024
-# version ='1.0'
+# version ='1.1'
 # ---------------------------------------------------------------------------
+import customtkinter
 from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk, Image
@@ -27,7 +28,9 @@ charCount=0
 
 def main():
 	global stopThread
-	root = Tk()
+	customtkinter.set_appearance_mode("system")  # Modes: system (default), light, dark
+	customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
+	root = customtkinter.CTk()
 	gui = Window(root)
 	root.protocol("WM_DELETE_WINDOW", gui.on_close)  
 	gui.root.mainloop()
@@ -38,43 +41,47 @@ class Window:
 
 	def __init__(self, root):
 		self.root = root
-		self.root.geometry('950x550')
+		self.root.geometry('1150x500')
 		self.root.resizable(0, 0)
-		self.root.config(bg='light grey')
-		self.root.title("AI Note Taker")
+		#self.root.config(bg='light grey')
+		self.root.title("AI Notetaker")
 		self.stop_transcriptions = False  # Flag to signal the thread to stop
 		
 
 		# Create frames
-		top_frame = Frame(root, width=400, height=200, bg='grey')
-		top_frame.grid(row=0, column=0, sticky='ew', padx=10, pady=5)
+		top_frame = customtkinter.CTkFrame(root, width=400, height=200)
+		top_frame.grid(row=0, column=0, sticky='ns', padx=10, pady=5)
 
-		bottom_frame = Frame(root, width=650, height=1000, bg='grey')
-		bottom_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=5)
+		bottom_frame = customtkinter.CTkFrame(root, width=650, height=1000)
+		bottom_frame.grid(row=0, column=1, sticky='nsew', padx=10, pady=5)
 
-		# Create open and save buttons
-		top_frame.saveB=Button(top_frame, text="Save", command=self.savefile).grid(row=0, column=0, padx=5, pady=5)
-		self.button3=Button(top_frame, text="Clear", command=self.clear).grid(row=0, column=1, padx=5, pady=5)
-		self.button3=Button(top_frame, text="Record", command=self.record).grid(row=0, column=2, padx=5, pady=5)
 		
+		# Create record, clear, and save buttons
+		top_frame.saveB=customtkinter.CTkButton(top_frame, text="Save", command=self.savefile).grid(row=1, column=0, padx=20, pady=(20, 10))
+		self.button3=customtkinter.CTkButton(top_frame, text="Clear", command=self.clear).grid(row=2, column=0, padx=20, pady=(20, 10))
+		self.button3=customtkinter.CTkButton(top_frame, text="Record", command=self.record).grid(row=3, column=0, padx=20, pady=(20, 10))
+		logo_label = customtkinter.CTkLabel(top_frame, text="AI Notetaker", font=customtkinter.CTkFont(size=20, weight="bold"))
+		logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
 
 		# Create transcript textspace
-		bottom_frame.textspace = Text(bottom_frame, bg='white', fg='black', font=('Times New Roman', 12), padx=5, pady=5, width=50, wrap=WORD)
+		bottom_frame.textspace = customtkinter.CTkTextbox(bottom_frame, padx=5, pady=5, width=400,height=470, wrap=WORD)
 		bottom_frame.textspace.grid(row=0, column=0, padx=10, pady=10)
 		with open("transcription.txt", "r") as file:
 			file_content = file.read()
 		bottom_frame.textspace.insert(1.0,file_content)
+
 		# Load and display the image for the search button
 		image = Image.open("right-arrow.jpg")
 		img = image.resize((50, 50))  # Resize the image
 		img = ImageTk.PhotoImage(img)
-		Button(bottom_frame, image=img, command=self.search).grid(row=0, column=1, padx=5, pady=0)
-		image_label = Label(bottom_frame, image=img)
-		image_label.photo = img
+		test=customtkinter.CTkImage(light_image=Image.open("right-arrow.jpg"), size=(50,50))
+		customtkinter.CTkButton(bottom_frame,text="", image=test, command=self.search,width=50).grid(row=0, column=1, padx=5, pady=0)
+		image_label = customtkinter.CTkLabel(bottom_frame, image=test, text="")
+		#image_label.photo = img
 		#image_label.grid(row=0, column=1, padx=5, pady=0)
 
 		# Create note textspace
-		bottom_frame.notetextspace = Text(bottom_frame, bg='white', fg='black', font=('Times New Roman', 12), padx=5, pady=5, width=50, wrap=WORD)
+		bottom_frame.notetextspace = customtkinter.CTkTextbox(bottom_frame, padx=5, pady=5, width=400,height=470, wrap=WORD)
 		bottom_frame.notetextspace.grid(row=0, column=2, padx=10, pady=10)
 		with open("notes.txt", "r") as file:
 			file_content = file.read()
@@ -282,11 +289,13 @@ class Window:
 					# Clear the console to reprint the updated transcription.
 					os.system('cls' if os.name=='nt' else 'clear')
 					bottom_frame = self.root.winfo_children()[1]  # Get the bottom_frame from the root
-					bottom_frame.textspace.delete('1.0', END)
+					#bottom_frame.textspace.delete('1.0', END)
 					for line in transcription:
 						print(line)
-						bottom_frame = self.root.winfo_children()[1]  # Get the bottom_frame from the root
-						bottom_frame.textspace.insert(END, line)
+						if(line==transcription[-1]):
+							bottom_frame = self.root.winfo_children()[1]  # Get the bottom_frame from the root
+							bottom_frame.textspace.insert(END, line)
+							bottom_frame.textspace.see(END)
 						
 					# Flush stdout.
 					print('', end='', flush=True)
@@ -312,17 +321,17 @@ class Window:
 
 	
 	def record(self):
-		if self.root.winfo_children()[0].winfo_children()[2]['relief'] == 'groove':
+		if self.root.winfo_children()[0].winfo_children()[2].cget('text_color') == 'red':
 			# If the button is active, stop transcription and disable the button
 			self.stop_transcription()
-			self.root.winfo_children()[0].winfo_children()[2]['relief'] = 'raised'
+			self.root.winfo_children()[0].winfo_children()[2].configure(text_color = 'white')
 		else:
 			# If the button is not active, enable the button, start transcription, and display a message
-			self.root.winfo_children()[0].winfo_children()[2]['relief'] = 'raised'
+			self.root.winfo_children()[0].winfo_children()[2].configure(text_color = 'white')
 			self.root.update()
 			self.stop_transcriptions = False
-			self.transcribe("small", False, 1000, 15, 3, 'pulse')  # Reference the transcribe method
-			self.root.winfo_children()[0].winfo_children()[2]['relief'] = 'groove'  # Disable the button after recording is complete
+			self.transcribe("small", False, 700, 5, 3, 'pulse')  # Reference the transcribe method
+			self.root.winfo_children()[0].winfo_children()[2].configure(text_color = 'red')  # Disable the button after recording is complete
 		
 
 
